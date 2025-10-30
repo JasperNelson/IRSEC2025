@@ -1,2 +1,2 @@
-# IRSEC2025
-Team Dead Bits IRSEC scripts. 
+# IRSeC 2025
+Team dead pixels IRSEC scripts. 
