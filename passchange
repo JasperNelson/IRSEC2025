@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# quick and dirty MASS password change script
+
+echo "starting mass password change script\n"
+
+count=0;
+
+all_names=( $( grep -v \/usr\/bin\/nologin /etc/passwd | cut -d ':' -f1 ) )
+names=( )
+
+for name in "${all_names[@]}"; do
+	if [[ $name == $(whoami) ]]; then 
+	echo "skipping {$(whoami)}..\n"
+	else 
+        names=( ${names[@]} $name )
+	fi
+done;
+
+for name in "${names[@]}"; do
+	set usr=${name}
+	count=$(( count++ )) 
+	coproc  "user_reset_${count}" head -c /dev/urandom | tr -dc "[:allnum:]"  |  passwd $usr --stdin  / echo $usr
+done;
+
+
+

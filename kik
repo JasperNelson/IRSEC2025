@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+# script to automatically kick all user sessions that are not you. 
+# 
+# Disclaimer: 
+# This is not a very useful security tool dont trust it as being able to kick out all attacks, prefer to lock accounts if necessary.
+# Also keep in mind most advanced remote shell execution is performed inside of other processes and does not use a interactive shell hence not affecting this.
+#
+# The main use of this script is purely to annoy redteam.  
+
+current=$(whoami);
+
+echo "ok $current proceeding to enable kick sentry for all other user sessions."
+
+coproc $(pwd)/kikbin.sh
