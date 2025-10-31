@@ -9,8 +9,10 @@
 #
 # The main use of this script is purely to annoy redteam.  
 
-current=$(whoami);
+current=$1;
 
 echo "ok $current proceeding to enable kick sentry for all other user sessions."
 
-coproc $(pwd)/kikbin.sh
+sudo $(pwd)/kikbin.sh ${current} / exit
+
+
