@@ -1,20 +1,29 @@
 #!/bin/bash
 
-user=$1; shift
-ip=$1; shift
+IFS=',' read -a ips <<< "$1"; shift
 commands="cd irsec2025"
+echo "${ips[@]}"
+
+for ip in "${ips[@]}"; do
+    echo $ip
+done
 
 for arg in "$@"; do
-    if [ $arg = "r" ] || [ $arg = "c" ] || [ $arg = "clean" ]; then
-        ssh $user@$ip "rm -rf irsec2025"
-    elif [ $arg = "i" ] || [ $arg = "install" ]; then
-        scp -qr $(pwd) $user@$ip:
+    echo $arg
+    if [ "$arg" = "r" ] || [ "$arg" = "c" ] || [ "$arg" = "clean" ]; then
+        for ip in "${ips[@]}"; do
+            ssh "$ip" "rm -rf irsec2025"
+        done
+    elif [ "$arg" = "i" ] || [ "$arg" = "install" ]; then
+        for ip in "${ips[@]}"; do
+            scp -qr $(pwd) "$ip":
+        done
     else
         commands+="; echo; $arg"
     fi
 done
 
-echo $commands
-
-ssh -t $user@$ip "$commands"
+for ip in "${ips[@]}"; do
+    ssh -t "$ip" "$commands"
+done
 
