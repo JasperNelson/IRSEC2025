@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "----- KERNEL INFO: -----"
+echo "lsmod:"
+lsmod
+
+echo
+echo "/lib/modules/$(uname -r)/kernel:"
+ls -1 /lib/modules/$(uname -r)/kernel
+
+echo
+echo "/proc/cmdline:"
+cat /proc/cmdline
+

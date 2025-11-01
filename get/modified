@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo -e "\nMODIFIED:"
-find / -mtime -1 -ls | sed 's/^/\t/'
+echo -e "\n----- MODIFIED: -----"
+find / -mtime -1 -ls
 

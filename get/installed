@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "----- PACKAGES: -----"
+
+os="$(cat /etc/os-release | grep '^ID=' | cut -d '=' -f 2 | tr -d '\"')"
+
+if [ "$os" = "rocky" ] || [ "$os" = "fedora" ]; then
+    dnf repoquery --userinstalled
+elif [ "$os" = "ubuntu" ] || [ "$os" = "debian" ]; then
+    apt-mark showmanual
+fi
+

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo "----- INTEGRITY: -----"
+
+os="$(cat /etc/os-release | grep '^ID=' | cut -d '=' -f 2 | tr -d '\"')"
+
+if [ "$os" = "rocky" ] || [ "$os" = "fedora" ]; then
+    sudo rpm -qaV
+elif [ "$os" = "ubuntu" ] || [ "$os" = "debian" ]; then
+    if [ "$1" = "i" ] || [ "$1" = "install" ]; then
+        sudo apt install debsums -y
+    fi
+    sudo debsums -s
+fi
+
