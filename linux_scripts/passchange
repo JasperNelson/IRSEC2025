@@ -20,7 +20,7 @@ done;
 for name in "${names[@]}"; do
 	set usr=${name}
 	count=$(( count++ )) 
-	head -c /dev/urandom | tr -dc "[:allnum:]" |  passwd $usr --stdin /
+	head -c 100 /dev/urandom | tr -dc "[:allnum:]" |  passwd $usr --stdin /
 	echo $usr
 done;
 
