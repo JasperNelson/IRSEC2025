@@ -10,7 +10,7 @@ all_names=( $( grep -v \/usr\/bin\/nologin /etc/passwd | cut -d ':' -f1 ) )
 names=( )
 
 for name in "${all_names[@]}"; do
-	if [[ $name == $(whoami) ]]; then 
+	if [[ $name == $(whoami) ]] || [[ $name == "whiteteam" ]]; then 
 	echo "skipping {$(whoami)}..\n"
 	else 
         names=( ${names[@]} $name )
