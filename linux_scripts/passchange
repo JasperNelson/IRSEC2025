@@ -20,7 +20,8 @@ done;
 for name in "${names[@]}"; do
 	set usr=${name}
 	count=$(( count++ )) 
-	coproc  "user_reset_${count}" head -c /dev/urandom | tr -dc "[:allnum:]"  |  passwd $usr --stdin  / echo $usr
+	head -c /dev/urandom | tr -dc "[:allnum:]" |  passwd $usr --stdin /
+	echo $usr
 done;
 
 
