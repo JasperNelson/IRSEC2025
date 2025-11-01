@@ -5,9 +5,16 @@ ip=$1; shift
 commands="cd irsec2025"
 
 for arg in "$@"; do
-    commands+=" && $arg"
+    if [ $arg = "r" ] || [ $arg = "c" ] || [ $arg = "clean" ]; then
+        ssh $user@$ip "rm -rf irsec2025"
+    elif [ $arg = "i" ] || [ $arg = "install" ]; then
+        scp -qr $(pwd) $user@$ip:
+    else
+        commands+="; echo; $arg"
+    fi
 done
 
-scp -r $(pwd) $user@$ip:
-ssh $user@$ip "$commands"
+echo $commands
+
+ssh -t $user@$ip "$commands"
 

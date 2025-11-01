@@ -1,6 +1,5 @@
-echo -e "\nGROUPS:"
-awk -F':' '{print $1}' /etc/group | sed 's/^/\t/'
+#!/bin/sh
 
-echo -e "\nUSERS:"
-awk -F':' '{print $1}' /etc/passwd | sed 's/^/\t/'
+echo "----- ENABLED USERS: -----"
+grep "$(sudo grep -v ! /etc/shadow | cut -d ':' -f 1)" /etc/passwd
 
