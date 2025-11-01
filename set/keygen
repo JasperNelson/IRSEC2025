@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ssh-keygen
+ssh-copy-id $1@$2
+

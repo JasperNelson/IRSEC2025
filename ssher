@@ -1,32 +1,13 @@
 #!/bin/bash
 
-add_ssh() {
-	commands+=$(cat $1)
-	ssh=1
-}
+user=$1; shift
+ip=$1; shift
+commands="cd irsec2025"
 
-user=$1
-shift
-ip=$1
-shift
+for arg in "$@"; do
+    commands+=" && $arg"
+done
 
-commands=""
-
-while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-	-b | --bashrc ) add_ssh get/bashrc;;
-	-c | --copy ) scp -r ./ $ip:;;
-	-d | --diagnostic ) add_ssh get/diagnostic;;
-    -i | --copy-id ) ssh-copy-id $user@$ip;;
-    -k | --keygen ) ssh-keygen;;
-	-m | --modified ) add_ssh get/modified;;
-	-q | --hushlogin ) add_ssh set/hushlogin;;
-	-u | --users | --groups ) add_ssh get/users;;
-esac; shift; done
-if [[ "$1" == "--" ]]; then shift; fi
-
-if [[ $ssh ]]; then
-	ssh $user@$ip -qt <<< $commands
-elif [[ -z $commands ]]; then
-    $SHELL <<< $commands
-fi
+scp -r $(pwd) $user@$ip:
+ssh $user@$ip "$commands"
 
