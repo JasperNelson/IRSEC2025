@@ -1,0 +1,43 @@
+#!/bin/bash
+source /etc/os-release
+
+function check(ret) {
+if [[ $ret ]]; then
+	exit
+fi
+}
+
+
+
+if [[ $NAME =~ "^Ubuntu?*" ]] || [[ $NAME =~ "^Debian?*" ]]; then
+	export DEBIAN_FRONTEND=noninteractive # needed sometimes for apt finniky-ness
+	apt-get update --yes
+	if ! $(apt-get install --yes debsums 2>/dev/null); then
+		while [ $? -ge 1 ]; do 
+		echo "There is something wrong with your distro based around apt trying to automatically repair"
+		apt-get reinstall --yes apt
+		dpkg --configure -a
+		done
+		apt-get update  --yes 2>/dev/null
+		apt-get install --yes debsums 2>/dev/null
+	fi
+	# find packages that are not matching the proper hashes
+	packages=( $(dpkg -S $(debsums -c) | cut -d : -f 1 | sort -u) )
+	## add choice thing here
+	apt-get install --download-only ${packages[@]}
+	temp=( $(echo /sys/class/net/*) )
+	for interface in ${$temp[@]##*/}; do
+		ip link set $interface down
+	done; unset temp
+
+	systemctl stop chron 2>/dev/null
+	apt-get --reinstall --yes /var/cache/apt/archives/*
+fi
+
+
+
+if ${force}; then
+	halt -f;
+fi
+# written by Jasper at RIT 
+
