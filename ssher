@@ -13,7 +13,7 @@ for arg in "$@"; do
             scp -qr $(pwd) "$ip":
         done
     else
-        commands+="; echo; $arg"
+        commands+="; $arg; echo"
     fi
 done
 
