@@ -18,6 +18,7 @@ for arg in "$@"; do
 done
 
 for ip in "${ips[@]}"; do
+    echo -----[ $ip ]-----
     ssh -t "$ip" "$commands"
 done
 
