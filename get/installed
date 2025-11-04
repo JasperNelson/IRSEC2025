@@ -2,11 +2,11 @@
 
 echo "----- PACKAGES: -----"
 
-os="$(cat /etc/os-release | grep '^ID=' | cut -d '=' -f 2 | tr -d '\"')"
+source /etc/os-release
 
-if [ "$os" = "rocky" ] || [ "$os" = "fedora" ]; then
+if [ "$ID" = "rocky" ] || [ "$ID" = "fedora" ]; then
     dnf repoquery --userinstalled
-elif [ "$os" = "ubuntu" ] || [ "$os" = "debian" ]; then
+elif [ "$ID" = "ubuntu" ] || [ "$ID" = "debian" ]; then
     apt-mark showmanual
 fi
 

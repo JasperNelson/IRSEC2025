@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # command looper
 # usage: lpr <cmd> <arg1,arg2,arg3>
