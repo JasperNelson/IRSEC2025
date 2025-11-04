@@ -19,6 +19,10 @@ done
 
 for ip in "${ips[@]}"; do
     echo -----[ $ip ]-----
-    ssh -t "$ip" "$commands"
+    if [ $ip = "l" ] || [ $ip = "local" ]; then
+        $commands
+    else
+        ssh -t "$ip" "$commands"
+    fi
 done
 
