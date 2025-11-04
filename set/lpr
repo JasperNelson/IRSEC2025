@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# command looper
+# usage: lpr <cmd> <arg1,arg2,arg3>
+
+IFS=',' read -a args <<< "$2"
+
+for arg in "${args[@]}"; do
+    $1 $arg
+done
+
