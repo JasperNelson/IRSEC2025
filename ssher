@@ -2,14 +2,8 @@
 
 IFS=',' read -a ips <<< "$1"; shift
 commands="cd irsec2025"
-echo "${ips[@]}"
-
-for ip in "${ips[@]}"; do
-    echo $ip
-done
 
 for arg in "$@"; do
-    echo $arg
     if [ "$arg" = "r" ] || [ "$arg" = "c" ] || [ "$arg" = "clean" ]; then
         for ip in "${ips[@]}"; do
             ssh "$ip" "rm -rf irsec2025"
