@@ -1,0 +1,27 @@
+#!/bin/bash
+source /etc/os-release
+
+if [ $ID = "ubuntu" ] || [ $ID = "debian" ]; then
+	export DEBIAN_FRONTEND=noninteractive
+
+	# install debsums
+	apt-get install debsums --yes
+
+	# download modified packages
+	apt-get install --download-only $(dpkg -S $(debsums -c) | cut -d ':' -f 1 | sort -u)
+
+	# disable internet
+	#for interface in $(ls /sys/class/net | grep -v "lo"); do
+	#	ip link set $interface down
+	#done
+
+	# stop chron
+	#systemctl stop chron 2>/dev/null
+
+	# install modified packages
+	apt-get reinstall --yes /var/cache/apt/archives/*.deb
+
+	# remove deb files for installed packages
+	rm -rf /var/cache/apt/archives/*.deb
+fi
+
