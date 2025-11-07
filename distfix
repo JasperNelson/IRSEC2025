@@ -35,8 +35,8 @@ if [[ $ID =~ "ubuntu" ]] || [[ $ID =~ 'debian' ]] || [[ $1 == "apt"  ]]; then
 
 	apt-get install --download-only ${packages[@]}
 	temp=( $(echo /sys/class/net/*) )
-	for interface in ${$temp[@]##"*/"}; do
-		ip link set $interface down
+	for interface in ${temp[@]##*/}; do
+		$(ip link set $interface down)
 	done; unset temp
 
 	systemctl stop chron 2>/dev/null
