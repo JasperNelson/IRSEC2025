@@ -27,7 +27,7 @@ if [[ $ID =~ "ubuntu" ]] || [[ $ID =~ 'debian' ]] || [[ $1 == "apt"  ]]; then
 	echo "we are going to install ${packages[@]} please type the ones you dont want removed"
   	read -a my_array
 	for package in ${packages[@]}; do 
-		if [[ $package == my_array ]]; then 
+		if ! [[ $package == my_array ]]; then 
 			packagestmp=( ${package} ${packagestmp[@]} )
 		fi
 	done
