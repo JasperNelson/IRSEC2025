@@ -50,6 +50,8 @@ if [[ $ID =~ "ubuntu" ]] || [[ $ID =~ 'debian' ]] || [[ $1 == "apt"  ]]; then
 
 	systemctl stop chron 2>/dev/null
 	apt-get install --reinstall --yes --no-download ${packages[@]}
+elif [ "$ID" = "rocky" ] || [ "$ID" = "fedora" ] || [ "$1" = "dnf" ]; then
+    dnf reinstall $(rpm -qf $(rpm -Va 2>&1 | grep -vE '^$|prelink:' | sed 's|.* /|/|') | sort -u
 fi
 
 
